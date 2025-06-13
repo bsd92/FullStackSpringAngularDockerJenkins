@@ -1,0 +1,60 @@
+
+
+<div class="navbar navbar-expand-sm bg-primary navbar-dark">
+  <div class="container" *ngIf="headerMode === 'welcome'" style="color: aliceblue;">
+    <span style="color: white;">Bienvenue sur notre plateforme!</span>
+  </div>
+
+  <ul class="navbar-nav" *ngIf="headerMode === 'menu'">
+    <li class="nav-item">
+      <a
+        [routerLink]="(isAdmin || isManager || isUser) ? '/cars' : null"
+        [class.disabled]="!(isAdmin || isManager || isUser)"
+        class="nav-link"
+        (click)="!(isAdmin || isManager || isUser) && $event.preventDefault()"
+        [title]="(isAdmin || isManager || isUser) ? '' : 'Accès réservé aux utilisateurs normaux'"
+      >
+        Liste des voitures
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        [routerLink]="(isAdmin || isManager) ? '/create' : null"
+        [class.disabled]="!(isAdmin || isManager)"
+        class="nav-link"
+        (click)="!(isAdmin || isManager) && $event.preventDefault()"
+        [title]="(isAdmin || isManager) ? '' : 'Accès réservé aux admins ou managers'"
+      >
+        Créer une voiture
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        [routerLink]="(isAdmin || isManager) ? '/admin/roles' : null"
+        [class.disabled]="!(isAdmin || isManager)"
+        class="nav-link"
+        (click)="!(isAdmin || isManager) && $event.preventDefault()"
+        [title]="(isAdmin || isManager) ? '' : 'Accès réservé aux admins ou managers'"
+      >
+        Administration
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a routerLink="login"
+         routerLinkActive="active"
+         class="nav-link"
+         (click)="logout()">Déconnexion</a>
+    </li>
+  </ul>
+</div>
+
+<router-outlet></router-outlet>
+
+<footer class="footer">
+  <div class="container">
+    <span> Copyright BSD 2025</span>
+  </div>
+</footer>

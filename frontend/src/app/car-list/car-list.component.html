@@ -1,0 +1,42 @@
+<div class="container">
+    <h3>Liste des voitures</h3>
+    <table style="width: 100%;">
+      <thead>
+        <tr>
+          <th>Immatriculation</th>
+          <th>Marque</th>
+          <th>Modèle</th>
+          <th>État</th>
+          <th>Status</th>
+          <th>Sauvegarder Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let car of cars">
+          <td>{{ car.immatriculation }}</td>
+          <td>{{ car.marque }}</td>
+          <td>{{ car.modele }}</td>
+          <td>{{ car.etat }}</td>
+          <td>
+            <label *ngFor="let s of statusList">
+              <input type="checkbox"
+                     [checked]="car.statut"
+                     (change)="onStatusChange(car, s)"
+                     [disabled]="car.statut === s">
+              {{ s }}
+            </label>
+          </td>
+          <td>
+            <button class="btn btn-success btn-sm" (click)="updateCarStatut(car)">Save Status</button>
+          </td>
+    
+          <td>
+            <button (click)="updateCar(car.immatriculation)" class="btn btn-info" [disabled]="!canUpdate()">Update</button>
+            <button (click)="deleteCar(car.immatriculation)" class="btn btn-danger" style="margin-left: 10px;" [disabled]="!canDelete()">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+</div>
