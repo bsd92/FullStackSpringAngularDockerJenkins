@@ -37,8 +37,8 @@ pipeline {
                 bat 'docker rm -f spring-backend || true'
                 bat 'docker rm -f angular-frontend || true'
 
-                bat 'docker run -d -p 8080:8080 --name spring-backend %BACKEND_IMAGE%'
-                bat 'docker run -d -p 80:80 --name angular-frontend %FRONTEND_IMAGE%'
+                bat 'docker run -d -p 8080:8080 --name spring-backend '
+                bat 'docker run -d -p 80:80 --name angular-frontend '
             }
         }
     }
