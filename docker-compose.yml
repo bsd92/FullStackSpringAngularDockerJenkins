@@ -30,7 +30,7 @@ services:
       PMA_HOST: mysql-db
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - "8081:80"
+      - "8083:80"
     depends_on:
       - db
     networks:
