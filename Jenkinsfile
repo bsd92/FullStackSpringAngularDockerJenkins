@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage('Cloner le dépôt') {
+        stage('Cloner le dépôt  ') {
             steps {
                 checkout scm
             }
