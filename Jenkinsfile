@@ -16,8 +16,8 @@ pipeline {
             steps {
                 script {
                     // Arrêt et suppression des conteneurs en cours
-                    bat 'docker compose down --remove-orphans'
-                    bat 'docker compose down -v '
+                    bat 'docker-compose down --remove-orphans'
+                    bat 'docker-compose down -v '
 
                     // Reconstruire toutes les images et relancer les services
                     bat 'docker compose up --build -d'
