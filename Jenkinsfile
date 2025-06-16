@@ -2,53 +2,36 @@ pipeline {
     agent any
 
     environment {
-        BACKEND_IMAGE = 'spring-backend'
-        FRONTEND_IMAGE = 'angular-frontend'
+      PROJECT_NAME = "car-management-app"
     }
 
     stages {
-        stage('Cloner le repo') {
+        stage('Cloner le dépôt') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build Backend') {
+        stage('Construire et lancer les services') {
             steps {
-                dir('backend') {
-                    bat 'mvn clean package -DskipTests'
-                    bat 'docker build -t %BACKEND_IMAGE% .'
+                script {
+                    // Arrêt et suppression des conteneurs en cours
+                    bat 'docker compose down --remove-orphans'
+                    bat 'docker compose down -v '
+
+                    // Reconstruire toutes les images et relancer les services
+                    bat 'docker compose up --build -d'
                 }
-            }
-        }
-
-        stage('Build Frontend') {
-            steps {
-                dir('frontend') {
-                    bat 'npm install'
-                    bat 'npm run build --prod'
-                    bat 'docker build -t %FRONTEND_IMAGE% .'
-                }
-            }
-        }
-
-        stage('Run Containers') {
-            steps {
-                bat 'docker rm -f spring-backend || true'
-                bat 'docker rm -f angular-frontend || true'
-
-                bat 'docker run -d -p 8080:8080 --name spring-backend %BACKEND_IMAGE%'
-                bat 'docker run -d -p 80:80 --name angular-frontend %FRONTEND_IMAGE%'
             }
         }
     }
 
     post {
         success {
-            echo 'Déploiement réussi '
+            echo 'Déploiement réussi via Docker Compose.'
         }
         failure {
-            echo 'Échec du pipeline '
+            echo 'Échec du pipeline.'
         }
     }
 }
