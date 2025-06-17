@@ -41,7 +41,7 @@ pipeline {
     agent any
 
     environment {
-        SPRING_JAR = 'backend/target/backend.jar'
+        SPRING_JAR = 'backend/target/garage-0.0.1-SNAPSHOT.jar'
         ANGULAR_DIST = 'frontend/dist'
         PROJECT_NAME = 'car-management-app'
     }
@@ -49,7 +49,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Clonage du dépôt...'
+                echo 'Clonage du dépôt..'
                 checkout scm
             }
         }
