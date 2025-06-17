@@ -25,8 +25,6 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private StatutName status;
 
-    private Date estimatedCompletionDate;
-
     public Car(String immatriculation, String marque, String modele, String etat){
         this.immatriculation=immatriculation;
         this.marque=marque;
