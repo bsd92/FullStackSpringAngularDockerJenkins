@@ -68,7 +68,7 @@ pipeline {
                 echo 'Compilation du frontend Angular...'
                 dir('frontend') {
                     bat 'npm install'
-                    bat 'npm run build -- --prod'
+                    bat 'npm run build -- --configuration production'
                 }
             }
         }
@@ -87,6 +87,7 @@ pipeline {
             steps {
                 echo 'Déploiement avec Docker Compose...'
                 bat 'docker compose down -v --remove-orphans'
+                bat 'docker compose down -v'
                 bat 'docker compose up --build -d'
             }
         }
