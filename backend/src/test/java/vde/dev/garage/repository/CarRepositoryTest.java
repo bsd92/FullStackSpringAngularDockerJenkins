@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-@DataJpaTest
+
+@SpringBootTest
+@ActiveProfiles("test")
 //@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class CarRepositoryTest {
 
