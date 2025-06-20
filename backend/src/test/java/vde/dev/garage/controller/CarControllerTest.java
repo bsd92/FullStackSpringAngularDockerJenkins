@@ -119,11 +119,11 @@ class CarControllerTest {
     @Test
     @WithMockUser(username = "admin1", authorities = {"CAN_DELETE_CARS"})
     void shouldDeleteCar() throws Exception {
-        Car car = new Car("DZ-568-KY","toyota4","Yarris4","neuve4");
+        Car car = new Car("DZ-568-KC","toyota4","Yarris4","neuve4");
 
         //lenient().when(carService.findCarById("DZ-568-KY")).thenReturn(car);
-        lenient().when(carService.findCarById("DZ-568-KY")).thenReturn(Optional.of(car));
-        mockMvc.perform(MockMvcRequestBuilders.delete("/garage/delete/DZ-568-KY"))
+        lenient().when(carService.findCarById("DZ-568-KC")).thenReturn(Optional.of(car));
+        mockMvc.perform(MockMvcRequestBuilders.delete("/garage/delete/DZ-568-KC"))
                 .andExpect(status().isOk());
     }
 }
