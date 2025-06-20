@@ -34,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
+@ActiveProfiles("test")
 class CarControllerTest {
     @Autowired
     private MockMvc mockMvc;

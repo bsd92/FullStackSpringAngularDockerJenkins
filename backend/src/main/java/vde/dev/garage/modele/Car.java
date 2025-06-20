@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Car")
+@Table(name = "car")
 @Getter
 @Setter
 @Builder
@@ -23,7 +23,15 @@ public class Car {
     private String etat ;
 
     @Enumerated(EnumType.STRING)
-    private StatutName status;
+    private StatutName statut;
+
+    public Car(String immatriculation, String marque, String modele, String etat,StatutName statut){
+        this.immatriculation=immatriculation;
+        this.marque=marque;
+        this.modele=modele;
+        this.etat=etat;
+        this.statut=statut
+    }
 
     public Car(String immatriculation, String marque, String modele, String etat){
         this.immatriculation=immatriculation;

@@ -1,12 +1,3 @@
 -- create table
-CREATE TABLE IF NOT EXISTS car (
-    immatriculation VARCHAR(10) PRIMARY KEY,
-    marque VARCHAR(10),
-    modele VARCHAR(10),
-    etat VARCHAR(10)
-    );
--- insert data
-insert into car (immatriculation,marque, modele, etat) values ('DZ-568-KC','toyota','yaris','neuve');
-insert into car (immatriculation, marque, modele, etat) values ('DZ-569-KD','mercedes','benz','ocasion');
-insert into car (immatriculation, marque, modele, etat) values ('LM-276-PV','Ford','fiesta','usage');
-
+INSERT INTO app_user(id, username, email) VALUES (1, 'johndoe', 'john@example.com');
+INSERT INTO car(id, marque, modele, etat,statut, app_user_id) VALUES (1, 'Renault', 'Clio', 'Neuve','EN_COURS', 1);
