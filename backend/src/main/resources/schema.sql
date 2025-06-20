@@ -1,13 +1,14 @@
--- Table des utilisateurs
-CREATE TABLE IF NOT EXISTS app_user (
-    id BIGINT PRIMARY KEY,
+DROP TABLE IF EXISTS car;
+DROP TABLE IF EXISTS app_user;
+
+CREATE TABLE app_user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE
 );
 
--- Table des voitures
-CREATE TABLE IF NOT EXISTS car (
-    id BIGINT PRIMARY KEY,
+CREATE TABLE car (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     marque VARCHAR(255) NOT NULL,
     modele VARCHAR(255) NOT NULL,
     statut VARCHAR(50),
