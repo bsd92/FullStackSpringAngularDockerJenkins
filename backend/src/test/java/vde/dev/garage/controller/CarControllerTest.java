@@ -63,7 +63,7 @@ class CarControllerTest {
 
         mockMvc.perform(get("/garage/read").header("Authorization", ""))
         .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].immatriculation").value("DZ-568-K0"));
+                .andExpect(jsonPath("$[0].immatriculation").value("TG-545-YH"));
     }
     //Ajout de la securité
     @Test
@@ -118,7 +118,8 @@ class CarControllerTest {
     void shouldDeleteCar() throws Exception {
         Car car = new Car("DZ-568-KY","toyota4","Yarris4","neuve4");
 
-        lenient().when(carService.findCarById("DZ-568-KY")).thenReturn(car);
+        //lenient().when(carService.findCarById("DZ-568-KY")).thenReturn(car);
+        lenient().when(carService.findCarById("DZ-568-KY")).thenReturn(Optional.of(car));
         mockMvc.perform(MockMvcRequestBuilders.delete("/garage/delete/DZ-568-KY"))
                 .andExpect(status().isOk());
     }
