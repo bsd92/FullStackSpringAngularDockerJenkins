@@ -12,6 +12,6 @@ CREATE TABLE car (
     immatriculation VARCHAR(255) NOT NULL,
     marque VARCHAR(255) NOT NULL,
     modele VARCHAR(255) NOT NULL,
-    etat VARCHAR(50),
+    etat VARCHAR(50)
 
 );
