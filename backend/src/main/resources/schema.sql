@@ -9,9 +9,9 @@ CREATE TABLE app_user (
 
 CREATE TABLE car (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    immatriculation VARCHAR(255) NOT NULL,
     marque VARCHAR(255) NOT NULL,
     modele VARCHAR(255) NOT NULL,
-    statut VARCHAR(50),
-    conducteur_id BIGINT,
-    FOREIGN KEY (conducteur_id) REFERENCES app_user(id) ON DELETE SET NULL
+    etat VARCHAR(50),
+
 );
