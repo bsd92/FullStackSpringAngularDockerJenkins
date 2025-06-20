@@ -30,7 +30,7 @@ public class Car {
         this.marque=marque;
         this.modele=modele;
         this.etat=etat;
-        this.statut=statut
+        this.statut=statut;
     }
 
     public Car(String immatriculation, String marque, String modele, String etat){
