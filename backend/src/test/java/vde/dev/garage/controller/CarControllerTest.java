@@ -65,7 +65,7 @@ class CarControllerTest {
         .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].immatriculation").value("DZ-568-K0"));
     }
-
+    //Ajout de la securité
     @Test
     @WithMockUser(username = "admin1", authorities = {"CAN_CREATE_CARS"})
     void shouldCreateCar() throws Exception {
