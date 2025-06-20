@@ -54,7 +54,7 @@ class CarControllerTest {
     private JwtUtils jwtUtils;
 
     @Test
-    @WithMockUser(username = "Boubacar1", authorities = {"CAN_VIEW_CARS"})
+    @WithMockUser(username = "admin1", authorities = {"CAN_VIEW_CARS"})
     void shouldReadCar() throws Exception {
         Car car1 = new Car("TG-545-YH","Yamaha","sonny","usage");
         Car car2 = new Car("VC-545-YT","BZZZ","Tony","occasion");
@@ -67,7 +67,7 @@ class CarControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "Boubacar1", authorities = {"CAN_CREATE_CARS"})
+    @WithMockUser(username = "admin1", authorities = {"CAN_CREATE_CARS"})
     void shouldCreateCar() throws Exception {
         String json= """
                 {
@@ -91,7 +91,7 @@ class CarControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "Boubacar1", authorities = {"CAN_UPDATE_CARS"})
+    @WithMockUser(username = "admin1", authorities = {"CAN_UPDATE_CARS"})
     void shouldUpdateCar() throws Exception {
         String json= """
                 {
@@ -114,11 +114,11 @@ class CarControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "Boubacar1", authorities = {"CAN_DELETE_CARS"})
+    @WithMockUser(username = "admin1", authorities = {"CAN_DELETE_CARS"})
     void shouldDeleteCar() throws Exception {
         Car car = new Car("DZ-568-KY","toyota4","Yarris4","neuve4");
 
-       // lenient().when(carService.findCarById("DZ-568-KY")).thenReturn(car);
+        lenient().when(carService.findCarById("DZ-568-KY")).thenReturn(car);
         mockMvc.perform(MockMvcRequestBuilders.delete("/garage/delete/DZ-568-KY"))
                 .andExpect(status().isOk());
     }
