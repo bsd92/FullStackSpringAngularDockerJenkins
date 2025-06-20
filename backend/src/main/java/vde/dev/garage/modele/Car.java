@@ -23,14 +23,14 @@ public class Car {
     private String etat ;
 
     @Enumerated(EnumType.STRING)
-    private StatutName statut;
+    private StatutName status;
 
-    public Car(String immatriculation, String marque, String modele, String etat,StatutName statut){
+    public Car(String immatriculation, String marque, String modele, String etat,StatutName status){
         this.immatriculation=immatriculation;
         this.marque=marque;
         this.modele=modele;
         this.etat=etat;
-        this.statut=statut;
+        this.statut=status;
     }
 
     public Car(String immatriculation, String marque, String modele, String etat){
