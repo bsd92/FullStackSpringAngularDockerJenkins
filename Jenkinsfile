@@ -73,7 +73,6 @@ pipeline {
             }
         }
 
-/*
         stage('Run Tests') {
             steps {
                 echo 'Lancement des tests backend...'
@@ -82,7 +81,6 @@ pipeline {
                 }
             }
         }
-     */
 
         stage('Docker Build & Deploy') {
             steps {
