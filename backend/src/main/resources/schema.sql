@@ -4,10 +4,9 @@ CREATE TABLE IF NOT EXISTS app_user (
     email VARCHAR(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS car(
-    immatriculation VARCHAR(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS car (
+    immatriculation VARCHAR(255) PRIMARY KEY,
     marque VARCHAR(255) NOT NULL,
     modele VARCHAR(255) NOT NULL,
     etat VARCHAR(50)
-
 );
