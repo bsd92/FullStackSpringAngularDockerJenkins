@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import vde.dev.garage.modele.Car;
 import vde.dev.garage.repository.UserRepository;
-import vde.dev.garage.security.JwtUtils;
+import vde.dev.garage.configuration.JwtUtils;
 import vde.dev.garage.service.CarServiceImpl;
 
 import static org.mockito.ArgumentMatchers.any;
