@@ -1,3 +1,4 @@
+version: '3.8'
 
 services:
   db:
@@ -18,7 +19,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pBoubacar2025"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -47,10 +48,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+    env_file: .env
     environment:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     networks:
       - app-network
     restart: always
@@ -67,10 +71,10 @@ services:
     networks:
       - app-network
     restart: always
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
   mysql-data:
-
