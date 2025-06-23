@@ -1,4 +1,4 @@
--- src/main/resources/data.sql
+
 INSERT INTO app_user(username, email) VALUES ('johndoe', 'john@example.com');
 
 INSERT INTO car (immatriculation, marque, modele, etat) VALUES ('DZ-568-KC', 'toyota', 'yaris', 'neuve');
