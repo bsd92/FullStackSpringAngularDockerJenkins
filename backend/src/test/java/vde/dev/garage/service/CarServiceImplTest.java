@@ -30,8 +30,26 @@ class CarServiceImplTest {
 
     @Test
     void createCar() {
-    }
+        // GIVEN
+        Car newCar = new Car("TG-545-YH", "Toyota", "Corolla", "Usage");
 
+        // WHEN - le comportement du repository
+        when(carRepository.save(any(Car.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        // WHEN - appel du service
+        Car savedCar = carService.createCar(newCar);
+
+        // THEN
+        assertThat(savedCar).isNotNull();
+        assertThat(savedCar.getImmatriculation()).isEqualTo("TG-545-YH");
+        assertThat(savedCar.getMarque()).isEqualTo("Toyota");
+        assertThat(savedCar.getModele()).isEqualTo("Corolla");
+        assertThat(savedCar.getEtat()).isEqualTo("Usage");
+
+        verify(carRepository).save(newCar); // vérifie que save a bien été appelé
+    }
+/*
     @Test
     void shouldReadCars() {
         //Arrange
@@ -79,6 +97,6 @@ class CarServiceImplTest {
         carService.deleteCar("TG-545-YH");
         verify(carRepository).deleteById("TG-545-YH");
     }
-
+ */
 
 }

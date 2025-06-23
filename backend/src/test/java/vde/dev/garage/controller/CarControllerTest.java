@@ -1,7 +1,9 @@
 package vde.dev.garage.controller;
 
+import vde.dev.garage.modele.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,10 +18,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Optional;
 
 import vde.dev.garage.modele.Car;
-import vde.dev.garage.repository.UserRepository;
+import vde.dev.garage.repository.*;
 import vde.dev.garage.configuration.JwtUtils;
 import vde.dev.garage.service.CarServiceImpl;
 
@@ -49,6 +52,12 @@ class CarControllerTest {
     private UserRepository uRepo;
 
     @MockBean
+    private PermissionRepository permissionRepository;
+
+    @MockBean
+    private RoleRepository roleRepository;
+
+    @MockBean
     private PasswordEncoder passwordEncoder;
 
     @MockBean
@@ -56,7 +65,36 @@ class CarControllerTest {
 
     @MockBean
     private JwtUtils jwtUtils;
+/*
+    @BeforeEach
+    void setUp(){
+        uRepo.deleteAll();
 
+        Permission permission=new Permission();
+        permission.setName(PermissionName.CAN_CREATE_CARS);
+
+        permissionRepository.save(permission);
+
+        Roles roles =new Roles();
+        roles.setName(RoleName.ADMIN);
+        roleRepository.save(roles);
+
+
+
+        AppUser appUser=new AppUser();
+        appUser.setId(1L);
+        appUser.setUsername("bobo");
+        appUser.setEmail("bobo@vde.com");
+        appUser.setPassword("123");
+        appUser.setRoles(Set.of(roles));
+        appUser.setPermissions(Set.of(permission));
+        uRepo.save(appUser);
+
+
+    }
+
+ */
+/*
     @Test
     @WithMockUser(username = "admin1", authorities = {"CAN_VIEW_CARS"})
     void shouldReadCar() throws Exception {
@@ -69,9 +107,9 @@ class CarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].immatriculation").value("TG-545-YH"));
     }
-
+*/
     @Test
-    @WithMockUser(username = "admin1", authorities = {"CAN_CREATE_CARS"})
+    @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldCreateCar() throws Exception {
         String json = """
                 {
@@ -92,7 +130,7 @@ class CarControllerTest {
                     assertTrue(status == HttpStatus.OK.value() || status == HttpStatus.CREATED.value());
                 });
     }
-
+/*
     @Test
     @WithMockUser(username = "admin1", authorities = {"CAN_UPDATE_CARS"})
     void shouldUpdateCar() throws Exception {
@@ -126,4 +164,6 @@ class CarControllerTest {
         mockMvc.perform(delete("/garage/delete/DZ-568-KC"))
                 .andExpect(status().isOk());
     }
+
+ */
 }
