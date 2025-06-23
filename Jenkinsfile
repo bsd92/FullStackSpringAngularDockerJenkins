@@ -68,6 +68,7 @@ pipeline {
                 echo 'Compilation du frontend Angular...'
                 dir('frontend') {
                     bat 'npm install'
+                    //Active le profile test uniquement pour les tests unitaires
                     bat 'npm run build -- --configuration production'
                 }
             }
@@ -77,7 +78,8 @@ pipeline {
             steps {
                 echo 'Lancement des tests backend...'
                 dir('backend') {
-                    bat 'mvn test'
+                    bat 'mvn test -Dspring.profiles.active=test'
+
                 }
             }
         }
