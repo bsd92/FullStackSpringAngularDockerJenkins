@@ -28,7 +28,7 @@ class CarRepositoryTest {
         carRepository.save(new Car("AB-123-CD", "peugeot", "308", "occasion"));
         carRepository.save(new Car("XY-456-ZT", "renault", "clio", "neuve"));
     }
-/*
+
     @Test
     public void shouldReturnAllCars() {
         List<Car> cars = carRepository.findAll();
@@ -43,7 +43,7 @@ class CarRepositoryTest {
         assertEquals("yaris", car.getModele());
     }
 
- */
+
     @Test
     public void shouldCreateCar() {
         Car car = new Car("EF-565-JU", "Audi", "Vimus", "neuve");
@@ -54,7 +54,7 @@ class CarRepositoryTest {
         assertEquals("Audi", savedCar.getMarque());
         assertEquals("Vimus", savedCar.getModele());
     }
-/*
+
     @Test
     public void shouldUpdateCar() {
         Car car = carRepository.findById("DZ-568-KC").get();
@@ -73,5 +73,5 @@ class CarRepositoryTest {
         assertFalse(carDel.isPresent());
     }
 
- */
+
 }

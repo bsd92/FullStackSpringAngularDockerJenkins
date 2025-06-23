@@ -94,9 +94,9 @@ class CarControllerTest {
     }
 
  */
-/*
+
     @Test
-    @WithMockUser(username = "admin1", authorities = {"CAN_VIEW_CARS"})
+    @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldReadCar() throws Exception {
         Car car1 = new Car("TG-545-YH", "Yamaha", "sonny", "usage");
         Car car2 = new Car("VC-545-YT", "BZZZ", "Tony", "occasion");
@@ -107,7 +107,7 @@ class CarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].immatriculation").value("TG-545-YH"));
     }
-*/
+
     @Test
     @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldCreateCar() throws Exception {
@@ -130,9 +130,9 @@ class CarControllerTest {
                     assertTrue(status == HttpStatus.OK.value() || status == HttpStatus.CREATED.value());
                 });
     }
-/*
+
     @Test
-    @WithMockUser(username = "admin1", authorities = {"CAN_UPDATE_CARS"})
+    @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldUpdateCar() throws Exception {
         String json = """
                 {
@@ -155,7 +155,7 @@ class CarControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "admin1", authorities = {"CAN_DELETE_CARS"})
+    @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldDeleteCar() throws Exception {
         Car car = new Car("DZ-568-KC", "Toyota4", "Yarris4", "neuve4");
 
@@ -165,5 +165,4 @@ class CarControllerTest {
                 .andExpect(status().isOk());
     }
 
- */
 }

@@ -49,7 +49,7 @@ class CarServiceImplTest {
 
         verify(carRepository).save(newCar); // vérifie que save a bien été appelé
     }
-/*
+
     @Test
     void shouldReadCars() {
         //Arrange
@@ -97,6 +97,5 @@ class CarServiceImplTest {
         carService.deleteCar("TG-545-YH");
         verify(carRepository).deleteById("TG-545-YH");
     }
- */
 
 }
