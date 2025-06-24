@@ -187,12 +187,12 @@ class CarControllerTest {
     @Test
     @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldDeleteCar() throws Exception {
-        Car car = new Car("DZ-568-KC", "Toyota4", "Yarris4", "neuve4");
+        Car car = new Car("DZ-568-KY", "Toyota4", "Yarris4", "neuve4");
 
         // Important : stub sur le repository utilisé dans deleteCar
         when(carRepository.findById("DZ-568-KC")).thenReturn(Optional.of(car));
 
-        mockMvc.perform(delete("/garage/delete/DZ-568-KC"))
+        mockMvc.perform(delete("/garage/delete/DZ-568-KY"))
                 .andExpect(status().isOk());
     }
 
