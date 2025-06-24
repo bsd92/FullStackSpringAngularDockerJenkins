@@ -70,11 +70,18 @@ public class CarServiceImpl implements CarService {
  */
     }
 
-    @Override
-    public String deleteCar(String immatriculation) {
-        carRepository.deleteById(immatriculation);
-        return "Car supprimé avec succès !";
+//    @Override
+//    public String deleteCar(String immatriculation) {
+//        carRepository.deleteById(immatriculation);
+//        return "Car supprimé avec succès !";
+//    }
+
+    public void deleteCar(String immatriculation) {
+        Car car = carRepository.findById(immatriculation)
+                .orElseThrow(() -> new RuntimeException("Voiture non trouvée !"));
+        carRepository.delete(car);
     }
+
 
     @Override
     public boolean existsByImmatriculation(String immatriculation) {
