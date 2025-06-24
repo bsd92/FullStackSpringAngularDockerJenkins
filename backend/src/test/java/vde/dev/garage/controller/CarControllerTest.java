@@ -154,15 +154,30 @@ class CarControllerTest {
                 .andExpect(jsonPath("$.marque").value("Berline"));
     }
 
-    @Test
-    @WithMockUser(username = "admin1", roles = {"ADMIN"})
-    void shouldDeleteCar() throws Exception {
-        Car car = new Car("DZ-568-KC", "Toyota4", "Yarris4", "neuve4");
+//    @Test
+//    @WithMockUser(username = "admin1", roles = {"ADMIN"})
+//    void shouldDeleteCar() throws Exception {
+//        Car car = new Car("DZ-568-KC", "Toyota4", "Yarris4", "neuve4");
+//
+//        lenient().when(carService.findCarById("DZ-568-KC")).thenReturn(Optional.of(car));
+//
+//        mockMvc.perform(delete("/garage/delete/DZ-568-KC"))
+//                .andExpect(status().isOk());
+//    }
+@Test
+@WithMockUser(username = "admin1", roles = {"ADMIN"})
+void shouldDeleteCar() throws Exception {
+    // Arrange : une voiture fictive
+    Car car = new Car("DZ-568-KC", "Toyota4", "Yarris4", "neuve4");
 
-        lenient().when(carService.findCarById("DZ-568-KC")).thenReturn(Optional.of(car));
+    // Simuler que le service la trouve et la supprime sans erreur
+    lenient().when(carService.findCarById("DZ-568-KC")).thenReturn(Optional.of(car));
+    doNothing().when(carService).deleteCar("DZ-568-KC");
 
-        mockMvc.perform(delete("/garage/delete/DZ-568-KC"))
-                .andExpect(status().isOk());
-    }
+    // Act & Assert
+    mockMvc.perform(delete("/garage/delete/DZ-568-KC"))
+            .andExpect(status().isOk());
+}
+
 
 }
