@@ -101,20 +101,23 @@ class CarServiceImplTest {
 
     @Test
     void shouldUpdateCar() {
-        // given
-        Car car = new Car("DZ-568-KC", "Toyota", "Yaris", "neuve");
-        Car updatedCar = new Car("DZ-568-KC", "Toyota", "Corolla", "occasion");
+        // Arrange
+        String immatriculation = "DZ-568-KC";
 
-        when(carRepository.findById("DZ-568-KC")).thenReturn(Optional.of(car));
+        Car existingCar = new Car(immatriculation, "Toyota", "Yaris", "neuve");
+        Car updatedCar = new Car(immatriculation, "Toyota", "Corolla", "occasion");
+
+        when(carRepository.findById(immatriculation)).thenReturn(Optional.of(existingCar));
         when(carRepository.save(any(Car.class))).thenReturn(updatedCar);
 
-        // when
-        Car result = carService.updateCar("DZ-568-KC", updatedCar);
+        // Act
+        Car result = carService.updateCar(immatriculation, updatedCar);
 
-        // then
+        // Assert
         assertEquals("Corolla", result.getModele());
         assertEquals("occasion", result.getEtat());
     }
+
 
 
     @Test

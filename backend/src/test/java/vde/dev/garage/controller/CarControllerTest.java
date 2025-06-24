@@ -140,17 +140,18 @@ class CarControllerTest {
     @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldUpdateCar() throws Exception {
         String json = """
-                {
-                    "immatriculation": "DZ-568-KY",
-                    "marque": "Berline",
-                    "modele": "Hiernos",
-                    "etat": "occasion"
-                }
-                """;
+            {
+                "immatriculation": "DZ-568-KY",
+                "marque": "Berline",
+                "modele": "Hiernos",
+                "etat": "occasion"
+            }
+            """;
 
         Car updatedCar = new Car("DZ-568-KY", "Berline", "Hiernos", "occasion");
+        when(carService.findCarById("DZ-568-KY")).thenReturn(Optional.of(new Car()));
 
-        lenient().when(carService.updateCar(any(String.class), any(Car.class))).thenReturn(updatedCar);
+        when(carService.updateCar(eq("DZ-568-KY"), any(Car.class))).thenReturn(updatedCar);
 
         mockMvc.perform(put("/garage/update/DZ-568-KY")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -158,6 +159,8 @@ class CarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.marque").value("Berline"));
     }
+
+
 
 //    @Test
 //    @WithMockUser(username = "admin1", roles = {"ADMIN"})
@@ -189,12 +192,13 @@ class CarControllerTest {
     void shouldDeleteCar() throws Exception {
         Car car = new Car("DZ-568-KY", "Toyota4", "Yarris4", "neuve4");
 
-        // Important : stub sur le repository utilisé dans deleteCar
-        when(carRepository.findById("DZ-568-KC")).thenReturn(Optional.of(car));
+
+        when(carRepository.findById("DZ-568-KY")).thenReturn(Optional.of(car));
 
         mockMvc.perform(delete("/garage/delete/DZ-568-KY"))
                 .andExpect(status().isOk());
     }
+
 
 
 
