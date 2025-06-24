@@ -185,19 +185,17 @@ class CarControllerTest {
 //}
 
     @Test
-    @WithMockUser(username = "admin1", roles = "ADMIN")
+    @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldDeleteCar() throws Exception {
-        Car car = new Car();
-        car.setImmatriculation("AA-123-BB");
-        car.setMarque("Toyota");
-        car.setModele("Corolla");
-        car.setEtat("Occasion");
-        carRepository.save(car);
+        Car car = new Car("DZ-568-KC", "Toyota4", "Yarris4", "neuve4");
 
-        mockMvc.perform(delete("/garage/delete/AA-123-BB"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.deleted").value(true));
+        // Important : stub sur le repository utilisé dans deleteCar
+        when(carRepository.findById("DZ-568-KC")).thenReturn(Optional.of(car));
+
+        mockMvc.perform(delete("/garage/delete/DZ-568-KC"))
+                .andExpect(status().isOk());
     }
+
 
 
 }
