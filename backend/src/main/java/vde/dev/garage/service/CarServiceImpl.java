@@ -98,18 +98,4 @@ public class CarServiceImpl implements CarService {
 //        sendEmailNotification(car);
     }
 
-//    private void sendEmailNotification(Car car) {
-//        String subject = "Notification sur l'état de votre voiture";
-//        String body = "Bonjour, votre voiture " + car.getMarque()+ " " + car.getModele()
-//                + " a changé de statut : " + car.getStatus();
-//
-//        // L'utilisateur de la voiture
-//        AppUser user = car.getUser();
-//
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(user.getEmail());
-//        message.setSubject(subject);
-//        message.setText(body);
-//        emailSender.send(message);
-//    }
 }

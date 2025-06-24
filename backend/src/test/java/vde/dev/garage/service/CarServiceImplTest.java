@@ -67,38 +67,6 @@ class CarServiceImplTest {
 
     }
 
-//    @Test
-//    void shouldUpdateCar() {
-//        // GIVEN - Création de la voiture existante
-//        String immatriculation = "TG-545-YH"; // L'ID de la voiture
-//        Car existingCar = new Car(immatriculation, "Yamaha", "Sonny", "Usage");
-//
-//        // Nouvelle voiture avec les nouvelles valeurs à mettre à jour
-//        Car updatedCar = new Car(immatriculation, "Honda", "Civic", "Personnel");
-//
-//        // Simulation du comportement du repository
-//        when(carRepository.findById(immatriculation))
-//                .thenReturn(Optional.of(existingCar)); //  findById() retourne un Optional<Car>
-//
-//        when(carRepository.save(any(Car.class)))
-//                .thenAnswer(invocation -> invocation.getArgument(0)); // Simule la sauvegarde de la voiture mise à jour
-//
-//        // WHEN - Exécution du service de mise à jour
-//        Car carUpdate = carService.updateCar(immatriculation, updatedCar);
-//
-//        // THEN - Vérification des résultats
-//        assertThat(carUpdate).isNotNull();
-//        assertThat(carUpdate.getImmatriculation()).isEqualTo(immatriculation); // L'immatriculation ne doit pas changer
-//        assertThat(carUpdate.getMarque()).isEqualTo("Honda"); // Marque mise à jour
-//        assertThat(carUpdate.getModele()).isEqualTo("Civic"); // Modèle mis à jour
-//
-//    }
-
-//    @Test
-//    void deleteCar() {
-//        carService.deleteCar("TG-545-YH");
-//        verify(carRepository).deleteById("TG-545-YH");
-//    }
 
     @Test
     void shouldUpdateCar() {

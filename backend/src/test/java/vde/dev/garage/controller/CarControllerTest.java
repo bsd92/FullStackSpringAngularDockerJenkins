@@ -71,35 +71,6 @@ class CarControllerTest {
 
     @MockBean
     private CarRepository carRepository;
-/*
-    @BeforeEach
-    void setUp(){
-        uRepo.deleteAll();
-
-        Permission permission=new Permission();
-        permission.setName(PermissionName.CAN_CREATE_CARS);
-
-        permissionRepository.save(permission);
-
-        Roles roles =new Roles();
-        roles.setName(RoleName.ADMIN);
-        roleRepository.save(roles);
-
-
-
-        AppUser appUser=new AppUser();
-        appUser.setId(1L);
-        appUser.setUsername("bobo");
-        appUser.setEmail("bobo@vde.com");
-        appUser.setPassword("123");
-        appUser.setRoles(Set.of(roles));
-        appUser.setPermissions(Set.of(permission));
-        uRepo.save(appUser);
-
-
-    }
-
- */
 
     @Test
     @WithMockUser(username = "admin1", roles = {"ADMIN"})
@@ -161,33 +132,6 @@ class CarControllerTest {
                 .andExpect(jsonPath("$.marque").value("Berline"));
     }
 
-
-
-//    @Test
-//    @WithMockUser(username = "admin1", roles = {"ADMIN"})
-//    void shouldDeleteCar() throws Exception {
-//        Car car = new Car("DZ-568-KC", "Toyota4", "Yarris4", "neuve4");
-//
-//        lenient().when(carService.findCarById("DZ-568-KC")).thenReturn(Optional.of(car));
-//
-//        mockMvc.perform(delete("/garage/delete/DZ-568-KC"))
-//                .andExpect(status().isOk());
-//    }
-//@Test
-//@WithMockUser(username = "admin1", roles = {"ADMIN"})
-//void shouldDeleteCar() throws Exception {
-//    // Arrange : une voiture fictive
-//    Car car = new Car("DZ-568-KC", "Toyota4", "Yarris4", "neuve4");
-//
-//    // Simuler que le service la trouve et la supprime sans erreur
-//    lenient().when(carService.findCarById("DZ-568-KC")).thenReturn(Optional.of(car));
-//    doNothing().when(carService).deleteCar("DZ-568-KC");
-//
-//    // Act & Assert
-//    mockMvc.perform(delete("/garage/delete/DZ-568-KC"))
-//            .andExpect(status().isOk());
-//}
-
     @Test
     @WithMockUser(username = "admin1", roles = {"ADMIN"})
     void shouldDeleteCar() throws Exception {
@@ -199,8 +143,5 @@ class CarControllerTest {
         mockMvc.perform(delete("/garage/delete/DZ-568-KY"))
                 .andExpect(status().isOk());
     }
-
-
-
 
 }
