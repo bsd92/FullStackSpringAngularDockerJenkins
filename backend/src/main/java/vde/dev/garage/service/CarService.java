@@ -17,7 +17,7 @@ public interface CarService {
 
     Car updateCar(String immatriculation, Car car);
 
-    String deleteCar(String immatriculation);
+    void deleteCar(String immatriculation);
 
     boolean existsByImmatriculation(String immatriculation);
 }
