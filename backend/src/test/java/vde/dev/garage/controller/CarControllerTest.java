@@ -27,6 +27,7 @@ import vde.dev.garage.modele.Car;
 import vde.dev.garage.repository.*;
 import vde.dev.garage.configuration.JwtUtils;
 import vde.dev.garage.service.CarServiceImpl;
+import static org.mockito.Mockito.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
