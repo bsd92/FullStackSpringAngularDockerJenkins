@@ -82,7 +82,7 @@ public class SecurityConfig {
            return http.build();
        }
 
-   */
+*/
 
    // Activation/Desactivation de la securité temporairement
 
@@ -106,7 +106,8 @@ public class SecurityConfig {
 
      */
 
-                // Avec permissions
+
+                // Avec Roles
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -123,6 +124,9 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtFilter(customerUserDetailsService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
+
+
 }
 
 

@@ -175,7 +175,7 @@ public class CarController {
     return ResponseEntity.ok(userDTOS);
 }
     @PutMapping("/admin/users/{id}/roles")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN','USER')")
     public ResponseEntity<?> updateRoles(@PathVariable Long id, @RequestBody List<String> roles) {
         AppUser user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
