@@ -44,7 +44,7 @@ services:
       dockerfile: Dockerfile
     container_name: spring-backend
     ports:
-      - "8085:8080"
+      - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
@@ -54,7 +54,6 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     networks:
       - app-network
     restart: always
