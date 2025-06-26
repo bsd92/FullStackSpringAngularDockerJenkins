@@ -49,6 +49,7 @@ pipeline {
             steps {
                 echo 'Déploiement avec Docker Compose...'
                 bat 'docker compose down -v --remove-orphans'
+                bat 'docker-compose down -v'
                 bat 'docker compose up --build -d'
             }
         }
