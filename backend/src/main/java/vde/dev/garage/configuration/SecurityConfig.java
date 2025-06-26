@@ -114,7 +114,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,"/garage/create").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,"/garage/read").hasAnyRole("USER", "ADMIN","MANAGER")
-                        .requestMatchers(HttpMethod.GET,"/garage/update").hasAnyRole("MANAGER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/garage/update").hasAnyRole("MANAGER", "ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/garage/delete").hasAnyRole("MANAGER", "ADMIN")
                         .requestMatchers(HttpMethod.POST,"/garage/register", "/garage/login","/garage/refresh-token").permitAll()
 
