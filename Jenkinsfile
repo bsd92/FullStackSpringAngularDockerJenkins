@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Clonage du dépôt..'
+                echo 'Clonage du dépôt...'
                 checkout scm
             }
         }
