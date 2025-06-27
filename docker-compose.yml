@@ -1,3 +1,84 @@
+#version: '3.8'
+#
+#services:
+#  db:
+#    image: mysql:8
+#    container_name: mysql-db
+#    restart: always
+#    env_file: .env
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#      MYSQL_DATABASE: ${MYSQL_DATABASE}
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+#      - mysql-data:/var/lib/mysql
+#    networks:
+#      - app-network
+#    healthcheck:
+##      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+#      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p${MYSQL_ROOT_PASSWORD}"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#
+#  phpmyadmin:
+#    image: phpmyadmin/phpmyadmin
+#    container_name: phpmyadmin
+#    restart: always
+#    environment:
+#      PMA_HOST: mysql-db
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#    ports:
+#      - "8082:80"
+#    depends_on:
+#      - db
+#    networks:
+#      - app-network
+#
+#  backend:
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile
+#    container_name: spring-backend
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#
+#    env_file: .env
+#    environment:
+#      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+#      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+#      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+#    networks:
+#      - app-network
+#    restart: always
+#
+#  frontend:
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile
+#    container_name: angular-frontend
+#    ports:
+#      - "4200:80"
+#    depends_on:
+#      - backend
+#    networks:
+#      - app-network
+#    restart: always
+#
+#networks:
+#  app-network:
+#    driver: bridge
+#
+#volumes:
+#  mysql-data:
+
 version: '3.8'
 
 services:
@@ -19,7 +100,6 @@ services:
     networks:
       - app-network
     healthcheck:
-#      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
@@ -35,7 +115,8 @@ services:
     ports:
       - "8082:80"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -44,33 +125,34 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: spring-backend
+    restart: always
     ports:
       - "8080:8080"
-    depends_on:
-      db:
-        condition: service_healthy
-
     env_file: .env
     environment:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - app-network
-    restart: always
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        - API_URL=${API_URL}
     container_name: angular-frontend
+    restart: always
     ports:
       - "4200:80"
     depends_on:
       - backend
     networks:
       - app-network
-    restart: always
 
 networks:
   app-network:

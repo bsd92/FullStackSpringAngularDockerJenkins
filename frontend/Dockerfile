@@ -10,17 +10,20 @@ COPY . .
 
 RUN npm install
 
+RUN echo "export const environment = { production: true, apiUrl: '$API_URL' };" > ./src/environments/environment.prod.ts
 RUN npm run build -- --project carsmanagement --configuration production
 
 
 # Étape 2 : Serveur NGINX pour servir les fichiers Angular compilés
 FROM nginx:alpine
 
-# Copier la config personnalisée de NGINX
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+ARG API_URL
+ENV API_URL=${API_URL}
+RUN npm install
 
 # Copier les fichiers Angular compilés
 COPY --from=build /app/dist/carsmanagement/browser /usr/share/nginx/html
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
