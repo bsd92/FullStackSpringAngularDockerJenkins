@@ -32,7 +32,7 @@ FROM node:20 AS build
 WORKDIR /app
 COPY . .
 RUN npm install
-RUN npm run build --configuration production
+RUN npm run build -- --project carsmanagement --configuration production
 
 # Serve with nginx
 FROM nginx:alpine
