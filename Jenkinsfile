@@ -17,7 +17,7 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                echo 'Compilation du backend Spring Boot..'
+                echo 'Compilation du backend Spring Boot...'
                 dir('backend') {
                     bat 'mvn clean package -DskipTests'
                 }
