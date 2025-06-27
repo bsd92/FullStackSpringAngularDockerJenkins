@@ -24,7 +24,7 @@ export class LoginComponent {
     this.authService.login(this.credentials).subscribe({
       next: () => {
         this.errorMessage = null;
-        this.router.navigate(['/cars']); 
+        this.router.navigate(['/cars']);
       },
       error: err => {
         console.error('Erreur de login:', err);
@@ -42,9 +42,9 @@ export class LoginComponent {
      // alert('Veuillez entrer un nom d’utilisateur et un mot de passe.');
       return;
     }
-  
+
     // Ensuite, tente de se connecter
-    
+
     this.authService.login(this.credentials).pipe(
       catchError((err) => {
         console.error('Erreur captée dans catchError:', err);
@@ -57,9 +57,9 @@ export class LoginComponent {
         this.router.navigate(['/cars']);
       }
     });
-    
+
   }
- 
+
 }
 
 

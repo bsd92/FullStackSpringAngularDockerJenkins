@@ -1,30 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-role-management',
   standalone: false,
   templateUrl: './role-management.component.html',
-  styleUrl: './role-management.component.css'
+  styleUrls: ['./role-management.component.css']
 })
-export class RoleManagementComponent implements OnInit{
+export class RoleManagementComponent implements OnInit {
 
   users: any[] = [];
   availableRoles = ['USER', 'MANAGER', 'ADMIN'];
 
+  // URL API dynamique
+  private baseUrl = `${environment.apiUrl}/garage/admin`;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.loadUsers() 
+    this.loadUsers();
   }
+
   loadUsers() {
-    this.http.get<any[]>('http://localhost:8080/garage/admin/users').subscribe(data => {
+    this.http.get<any[]>(`${this.baseUrl}/users`).subscribe(data => {
       this.users = data;
     });
   }
 
   updateUserRoles(user: any) {
-    this.http.put(`http://localhost:8080/garage/admin/users/${user.id}/roles`, user.roles).subscribe(() => {
+    this.http.put(`${this.baseUrl}/users/${user.id}/roles`, user.roles).subscribe(() => {
       alert(`Rôles de ${user.username} mis à jour !`);
     });
   }

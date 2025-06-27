@@ -20,7 +20,7 @@ export class CarListComponent implements OnInit {
   ngOnInit(): void {
    this.getCars()
   }
-  
+
   getCars(){
     this.carsService.getCartList().subscribe(
       data=>{this.cars=data}
@@ -60,11 +60,11 @@ export class CarListComponent implements OnInit {
   get isAdmin(): boolean {
     return this.authService.hasRole('ADMIN');
   }
-  
+
   get isManager(): boolean {
     return this.authService.hasRole('MANAGER');
   }
-  
+
   get isUser(): boolean {
     return this.authService.hasRole('USER');
   }

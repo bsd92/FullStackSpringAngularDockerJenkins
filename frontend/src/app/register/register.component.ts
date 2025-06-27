@@ -1,22 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { environment } from '../../../src/environments/environment';
 
 @Component({
   selector: 'app-register',
   standalone: false,
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css'] // ✅ Attention: c'est "styleUrls" (avec un "s")
 })
 export class RegisterComponent {
+
   user = {
     username: '',
     email: '',
     password: ''
   };
-  
 
-  availableRoles = ['USER','MANAGER', 'ADMIN'];
+  availableRoles = ['USER', 'MANAGER', 'ADMIN'];
   availablePermissions = [
     'CAN_VIEW_CARS',
     'CAN_CREATE_CARS',
@@ -27,14 +27,15 @@ export class RegisterComponent {
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
+  // ✅ URL API dynamique
+  private baseUrl = `${environment.apiUrl}/garage`;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {}
 
-
-
   registerUser() {
-    this.http.post('http://localhost:8080/garage/register', this.user).subscribe({
+    this.http.post(`${this.baseUrl}/register`, this.user).subscribe({
       next: (response) => {
         this.successMessage = (response as any).message || 'Utilisateur créé avec succès';
         this.errorMessage = null;
