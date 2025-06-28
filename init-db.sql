@@ -57,16 +57,20 @@ CREATE TABLE `app_user_permissions` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `app-user_roles`
+-- Structure de la table `app_user_roles`
 --
 
 CREATE TABLE `app_user_roles` (
   `app_user_id` bigint(20) NOT NULL,
-  `role_id` bigint(20) NOT NULL
+  `role_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`app_user_id`, `role_id`),
+  CONSTRAINT `fk_app_user_roles_user` FOREIGN KEY (`app_user_id`) REFERENCES `app_user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_app_user_roles_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
 --
--- Déchargement des données de la table `app-user_roles`
+-- Déchargement des données de la table `app_user_roles`
 --
 
 INSERT INTO `app_user_roles` (`app_user_id`, `role_id`) VALUES
@@ -221,7 +225,10 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 
 CREATE TABLE `roles_permissions` (
   `role_id` bigint(20) NOT NULL,
-  `permission_id` bigint(20) NOT NULL
+  `permission_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`role_id`, `permission_id`),
+  CONSTRAINT `fk_roles_permissions_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_roles_permissions_permission` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -246,12 +253,6 @@ ALTER TABLE `app_user_permissions`
   ADD PRIMARY KEY (`app_user_id`,`permissions_id`),
   ADD KEY `FKdw6t3bkjufxv45apygmtop8bh` (`permissions_id`);
 
---
--- Index pour la table `app-user_roles`
---
-ALTER TABLE `app_user_roles`
-  ADD PRIMARY KEY (`app_user_id`,`role_id`),
-  ADD KEY `FKqty5eh5gll2a7mcgmomb9auhs` (`role_id`);
 
 
 --
@@ -295,18 +296,6 @@ ALTER TABLE `roles`
   ADD UNIQUE KEY `UKofx66keruapi6vyqpv6f2or37` (`name`);
 
 --
--- Index pour la table `roles_permissions`
---
-ALTER TABLE `roles_permissions`
-  ADD PRIMARY KEY (`role_id`,`permission_id`),
-  ADD KEY `FKboeuhl31go7wer3bpy6so7exi` (`permission_id`);
-
---
--- Index pour la table `user_roles`
---
-ALTER TABLE `app_user_roles`
-  ADD PRIMARY KEY (`app_user_id`,`role_id`),
-  ADD KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (`role_id`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
