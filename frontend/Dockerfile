@@ -1,33 +1,39 @@
-# Étape 1 : Build de l'application Angular
+### Étape 1 : Build de l'application Angular
 FROM node:18-alpine AS build
 
 WORKDIR /app
 
+# Copier les fichiers nécessaires pour l'installation
 COPY package*.json ./
 COPY angular.json ./
 COPY tsconfig*.json ./
-COPY . .
+COPY ./src ./src
 
+# Installer les dépendances
 RUN npm install
 
+# Générer l'environnement avec la variable API_URL
+ARG API_URL
 RUN echo "export const environment = { production: true, apiUrl: '$API_URL' };" > ./src/environments/environment.prod.ts
+
+# Build de l'application Angular
 RUN npm run build -- --project carsmanagement --configuration production
 
 
-# Étape 2 : Serveur NGINX pour servir les fichiers Angular compilés
+### Étape 2 : Image NGINX pour servir l'application
 FROM nginx:alpine
 
-ARG API_URL
-ENV API_URL=${API_URL}
-RUN npm install
-
-# Copier les fichiers Angular compilés
+# Copier les fichiers Angular compilés vers NGINX
 COPY --from=build /app/dist/carsmanagement/browser /usr/share/nginx/html
+
+# Copier la configuration personnalisée de NGINX
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
+# Démarrer NGINX
 CMD ["nginx", "-g", "daemon off;"]
+
 
 #V2:
 # Build Angular app
