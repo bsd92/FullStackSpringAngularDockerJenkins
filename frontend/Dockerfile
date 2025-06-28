@@ -23,7 +23,7 @@ RUN npm run build -- --configuration production
 FROM nginx:alpine
 
 # Copier le build Angular vers NGINX
-COPY --from=build /app/dist/carsmanagement /usr/share/nginx/html
+COPY --from=build /app/dist/carsmanagement/browser /usr/share/nginx/html
 
 # Optionnel : copier ta config NGINX personnalisée
 # COPY ./nginx.conf /etc/nginx/nginx.conf
