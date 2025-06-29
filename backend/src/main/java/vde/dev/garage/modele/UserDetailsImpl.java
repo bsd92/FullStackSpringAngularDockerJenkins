@@ -20,25 +20,23 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities = authorities;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        // Ajouter les rôles
-        for (Roles role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role.getName().name()));
-
-            // Ajouter les permissions associées au rôle
-            for (Permission permission : role.getPermissions()) {
-                authorities.add(new SimpleGrantedAuthority(permission.getName().name()));
-            }
+        for (RoleName role : user.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
         }
 
-        return new UserDetailsImpl(user.getUsername(), user.getPassword(), authorities);
+        return new UserDetailsImpl(
+                user.getUsername(),
+                user.getPassword(),
+                authorities
+        );
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 
     @Override

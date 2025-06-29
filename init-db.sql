@@ -1,167 +1,293 @@
--- Suppression des tables existantes pour éviter les conflits
-DROP TABLE IF EXISTS roles_permissions;
-DROP TABLE IF EXISTS app_user_roles;
-DROP TABLE IF EXISTS app_user_permissions;
-DROP TABLE IF EXISTS permission;
-DROP TABLE IF EXISTS roles;
-DROP TABLE IF EXISTS owner;
-DROP TABLE IF EXISTS garage_mechanic;
-DROP TABLE IF EXISTS mechanic;
-DROP TABLE IF EXISTS garage;
-DROP TABLE IF EXISTS car;
-DROP TABLE IF EXISTS app_user;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1
+-- Généré le : dim. 29 juin 2025 à 20:06
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.0.30
 
--- Table des utilisateurs
-CREATE TABLE app_user (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  username VARCHAR(50) NOT NULL UNIQUE,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- Table des rôles
-CREATE TABLE roles (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(50) NOT NULL UNIQUE,
-  PRIMARY KEY (id)
-);
 
--- Table des permissions
-CREATE TABLE permission (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(100) NOT NULL UNIQUE,
-  PRIMARY KEY (id)
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- Liaison utilisateur-rôles (Many-to-Many)
-CREATE TABLE app_user_roles (
-  app_user_id BIGINT NOT NULL,
-  role_id BIGINT NOT NULL,
-  PRIMARY KEY (app_user_id, role_id),
-  FOREIGN KEY (app_user_id) REFERENCES app_user(id) ON DELETE CASCADE,
-  FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
-);
+--
+-- Base de données : `garage`
+--
 
--- Liaison utilisateur-permissions (Many-to-Many)
-CREATE TABLE app_user_permissions (
-  app_user_id BIGINT NOT NULL,
-  permission_id BIGINT NOT NULL,
-  PRIMARY KEY (app_user_id, permission_id),
-  FOREIGN KEY (app_user_id) REFERENCES app_user(id) ON DELETE CASCADE,
-  FOREIGN KEY (permission_id) REFERENCES permission(id) ON DELETE CASCADE
-);
+-- --------------------------------------------------------
 
--- Liaison rôles-permissions (Many-to-Many)
-CREATE TABLE roles_permissions (
-  role_id BIGINT NOT NULL,
-  permission_id BIGINT NOT NULL,
-  PRIMARY KEY (role_id, permission_id),
-  FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
-  FOREIGN KEY (permission_id) REFERENCES permission(id) ON DELETE CASCADE
-);
+--
+-- Structure de la table `app_user`
+--
 
--- Table des voitures
-CREATE TABLE car (
-  immatriculation VARCHAR(20) NOT NULL,
-  marque VARCHAR(50) NOT NULL,
-  modele VARCHAR(50) NOT NULL,
-  etat VARCHAR(50) NOT NULL,
-  status ENUM('EN_ATTENTE', 'EN_COURS', 'TERMINE') NOT NULL,
-  estimated_completion_date DATE,
-  PRIMARY KEY (immatriculation)
-);
+CREATE TABLE `app_user` (
+  `id` bigint(20) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Table des garages
-CREATE TABLE garage (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(100) NOT NULL,
-  location VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
-);
+--
+-- Déchargement des données de la table `app_user`
+--
 
--- Table des mécaniciens
-CREATE TABLE mechanic (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(100) NOT NULL,
-  specialty VARCHAR(100),
-  PRIMARY KEY (id)
-);
+INSERT INTO `app_user` (`id`, `email`, `password`, `username`) VALUES
+(1, 'admin@vde.fr', '$2y$10$fWBxqzG0Y4KMqpv/gN/iEuxLYPvtbUNVYjQG5/c15KjCpUn5dyAbS', 'admin');
 
--- Liaison garage-mécanicien (Many-to-Many)
-CREATE TABLE garage_mechanic (
-  garage_id BIGINT NOT NULL,
-  mechanic_id BIGINT NOT NULL,
-  PRIMARY KEY (garage_id, mechanic_id),
-  FOREIGN KEY (garage_id) REFERENCES garage(id) ON DELETE CASCADE,
-  FOREIGN KEY (mechanic_id) REFERENCES mechanic(id) ON DELETE CASCADE
-);
+-- --------------------------------------------------------
 
--- Table des propriétaires
-CREATE TABLE owner (
-  id BIGINT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  car_id VARCHAR(20),
-  PRIMARY KEY (id),
-  FOREIGN KEY (car_id) REFERENCES car(immatriculation) ON DELETE SET NULL
-);
+--
+-- Structure de la table `app_user_permissions`
+--
 
--- =====================
--- ==== INSERTIONS ====
--- =====================
+CREATE TABLE `app_user_permissions` (
+  `app_user_id` bigint(20) NOT NULL,
+  `permissions_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Rôles
-INSERT INTO roles (name) VALUES ('ADMIN'), ('MANAGER'), ('USER');
+-- --------------------------------------------------------
 
--- Permissions
-INSERT INTO permission (name) VALUES
-('CAN_VIEW_CARS'),
-('CAN_CREATE_CARS'),
-('CAN_UPDATE_CARS'),
-('CAN_DELETE_CARS');
+--
+-- Structure de la table `app_user_roles`
+--
 
--- Association rôles  permissions
-INSERT INTO roles_permissions (role_id, permission_id) VALUES
-(1, 1), (1, 2), (1, 3), (1, 4), -- ADMIN : tout
-(2, 1), (2, 2), (2, 3),         -- MANAGER : view, create, update
-(3, 1);                         -- USER : seulement view
+CREATE TABLE `app_user_roles` (
+  `user_id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Utilisateurs
-INSERT INTO app_user (username, email, password) VALUES
-('admin', 'admin@example.com', 'adminpassword'),
-('manager', 'manager@example.com', 'managerpassword'),
-('user', 'user@example.com', 'userpassword');
+--
+-- Déchargement des données de la table `app_user_roles`
+--
 
--- Association utilisateurs  rôles
-INSERT INTO app_user_roles (app_user_id, role_id) VALUES
-(1, 1), -- admin ->ADMIN
-(2, 2), -- manager -> MANAGER
-(3, 3); -- user ->USER
+INSERT INTO `app_user_roles` (`user_id`, `role_id`) VALUES
+(1, 1);
 
--- Voitures
-INSERT INTO car (immatriculation, marque, modele, etat, status, estimated_completion_date) VALUES
-('AB-123-CD', 'Toyota', 'Corolla', 'Bon', 'EN_ATTENTE', '2025-07-10'),
-('EF-456-GH', 'Peugeot', '208', 'Moyen', 'EN_COURS', '2025-07-15'),
-('IJ-789-KL', 'Renault', 'Clio', 'Neuf', 'TERMINE', '2025-07-05');
+-- --------------------------------------------------------
 
--- Garages
-INSERT INTO garage (name, location) VALUES
-('Garage Central', 'Paris'),
-('Garage Sud', 'Lyon');
+--
+-- Structure de la table `car`
+--
 
--- Mécaniciens
-INSERT INTO mechanic (name, specialty) VALUES
-('Jean Dupont', 'Moteur'),
-('Marie Curie', 'Électronique');
+CREATE TABLE `car` (
+  `immatriculation` varchar(255) NOT NULL,
+  `etat` varchar(50) DEFAULT NULL,
+  `marque` varchar(50) DEFAULT NULL,
+  `modele` varchar(50) DEFAULT NULL,
+  `status` enum('DELAI_PROLONGE','EN_ATTENTE','EN_COURS','TERMINE') DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Association garage  mécaniciens
-INSERT INTO garage_mechanic (garage_id, mechanic_id) VALUES
-(1, 1),
-(1, 2),
-(2, 2);
+--
+-- Déchargement des données de la table `car`
+--
 
--- Propriétaires
-INSERT INTO owner (name, email, car_id) VALUES
-('Alice Martin', 'alice@example.com', 'AB-123-CD'),
-('Bob Durand', 'bob@example.com', 'EF-456-GH');
+INSERT INTO `car` (`immatriculation`, `etat`, `marque`, `modele`, `status`, `user_id`) VALUES
+('DZ-568-KC', 'Neuve', 'Toyota', 'T2025', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `permission`
+--
+
+CREATE TABLE `permission` (
+  `id` bigint(20) NOT NULL,
+  `name` enum('CAN_CREATE_CARS','CAN_DELETE_CARS','CAN_UPDATE_CARS','CAN_VIEW_CARS') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) NOT NULL,
+  `name` enum('ADMIN','MANAGER','USER') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'ADMIN'),
+(2, 'MANAGER'),
+(3, 'USER');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `roles_permissions`
+--
+
+CREATE TABLE `roles_permissions` (
+  `role_id` bigint(20) NOT NULL,
+  `permission_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `user_id` bigint(20) NOT NULL,
+  `roles` enum('ADMIN','MANAGER','USER') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `app_user`
+--
+ALTER TABLE `app_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UK1j9d9a06i600gd43uu3km82jw` (`email`),
+  ADD UNIQUE KEY `UK3k4cplvh82srueuttfkwnylq0` (`username`);
+
+--
+-- Index pour la table `app_user_permissions`
+--
+ALTER TABLE `app_user_permissions`
+  ADD PRIMARY KEY (`app_user_id`,`permissions_id`),
+  ADD KEY `FKhx21dcah5ghrbn871wxx979v0` (`permissions_id`);
+
+--
+-- Index pour la table `app_user_roles`
+--
+ALTER TABLE `app_user_roles`
+  ADD PRIMARY KEY (`user_id`,`role_id`),
+  ADD KEY `FKkxwhjke5g0yvja54osexos75t` (`role_id`);
+
+--
+-- Index pour la table `car`
+--
+ALTER TABLE `car`
+  ADD PRIMARY KEY (`immatriculation`),
+  ADD KEY `FKc7ji0upjogkifkvi8emang352` (`user_id`);
+
+--
+-- Index pour la table `permission`
+--
+ALTER TABLE `permission`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `roles_permissions`
+--
+ALTER TABLE `roles_permissions`
+  ADD PRIMARY KEY (`role_id`,`permission_id`),
+  ADD KEY `FKboeuhl31go7wer3bpy6so7exi` (`permission_id`);
+
+--
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD KEY `FKhfh9dx7w3ubf1co1vdev94g3f` (`user_id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `app_user`
+--
+ALTER TABLE `app_user`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `permission`
+--
+ALTER TABLE `permission`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `app_user_permissions`
+--
+ALTER TABLE `app_user_permissions`
+  ADD CONSTRAINT `FK3xagfc9k59sltr0dc1xb3g0q8` FOREIGN KEY (`app_user_id`) REFERENCES `app_user` (`id`),
+  ADD CONSTRAINT `FKhx21dcah5ghrbn871wxx979v0` FOREIGN KEY (`permissions_id`) REFERENCES `permission` (`id`);
+
+--
+-- Contraintes pour la table `app_user_roles`
+--
+ALTER TABLE `app_user_roles`
+  ADD CONSTRAINT `FK3lwiahkol5aetc57pto5olacf` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`),
+  ADD CONSTRAINT `FKkxwhjke5g0yvja54osexos75t` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+
+--
+-- Contraintes pour la table `car`
+--
+ALTER TABLE `car`
+  ADD CONSTRAINT `FKc7ji0upjogkifkvi8emang352` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`);
+
+--
+-- Contraintes pour la table `roles_permissions`
+--
+ALTER TABLE `roles_permissions`
+  ADD CONSTRAINT `FKboeuhl31go7wer3bpy6so7exi` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`),
+  ADD CONSTRAINT `FKqi9odri6c1o81vjox54eedwyh` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+
+--
+-- Contraintes pour la table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `FKhfh9dx7w3ubf1co1vdev94g3f` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
