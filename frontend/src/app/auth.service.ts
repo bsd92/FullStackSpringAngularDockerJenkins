@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
 export class AuthService {
 
   // Utilisation de l'URL dynamique depuis l'environnement
-  private baseUrl = `${environment.apiUrl}/garage`;
+  private baseUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient, private router: Router) {}
 

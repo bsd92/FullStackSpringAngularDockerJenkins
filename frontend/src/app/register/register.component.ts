@@ -6,7 +6,7 @@ import { environment } from '../../../src/environments/environment';
   selector: 'app-register',
   standalone: false,
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'] // ✅ Attention: c'est "styleUrls" (avec un "s")
+  styleUrls: ['./register.component.css'] //  Attention: c'est "styleUrls" (avec un "s")
 })
 export class RegisterComponent {
 
@@ -27,8 +27,8 @@ export class RegisterComponent {
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
-  // ✅ URL API dynamique
-  private baseUrl = `${environment.apiUrl}/garage`;
+  //URL API dynamique
+  private baseUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 

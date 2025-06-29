@@ -10,7 +10,7 @@ import { environment } from '../environments/environment';
 export class CarsService {
 
   // Utilisation de l'URL depuis l'environnement
-  private baseUrl = `${environment.apiUrl}/garage`;
+  private baseUrl = `${environment.apiUrl}`;
 
   constructor(private httpClient: HttpClient) { }
 

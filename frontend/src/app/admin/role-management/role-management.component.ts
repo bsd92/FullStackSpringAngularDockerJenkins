@@ -14,7 +14,7 @@ export class RoleManagementComponent implements OnInit {
   availableRoles = ['USER', 'MANAGER', 'ADMIN'];
 
   // URL API dynamique
-  private baseUrl = `${environment.apiUrl}/garage/admin`;
+  private baseUrl = `${environment.apiUrl}/admin`;
 
   constructor(private http: HttpClient) {}
 
