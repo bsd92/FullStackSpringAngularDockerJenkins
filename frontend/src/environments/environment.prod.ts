@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://spring-backend:8080/garage'
+  apiUrl: 'http://localhost:8080/garage'
 };

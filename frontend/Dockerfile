@@ -12,9 +12,10 @@ COPY ./src ./src
 # Installer les dépendances
 RUN npm install
 
+
 # Générer l'environnement avec la variable API_URL
-ARG API_URL
-RUN echo "export const environment = { production: true, apiUrl: '$API_URL' };" > ./src/environments/environment.prod.ts
+# ARG API_URL
+# RUN echo "export const environment = { production: true, apiUrl: '$API_URL' };" > ./src/environments/environment.prod.ts
 
 # Build de l'application Angular
 RUN npm run build -- --configuration production
